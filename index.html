@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Tic Tac Toe</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+			rel="stylesheet"
+		/>
+		<style type="text/css" media="screen">
+			* {
+				box-sizing: border-box;
+				overflow: hidden;
+				color: white;
+				background-image: url(https://www.lefthudson.com/wp-content/uploads/2019/11/black-textured-background-luxury-black-textured-background-c2b7e291a0-download-free-amazing-full-hd-wallpapers-for-desktop-and-mobile-this-week-of-black-textured-background.jpg);
+			}
+
+			body {
+				overflow: hidden;
+				background: black;
+			}
+
+			header {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			header > h1 {
+				font-size: 70px;
+				font-family: "Permanent Marker", sans-serif;
+			}
+
+			.winner-disp {
+				height: 20vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 40px;
+				font-family: sans-serif;
+				font-weight: bolder;
+				color: gold;
+			}
+
+			.container {
+				height: 100vh;
+				width: 100vw;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				align-items: center;
+			}
+
+			.grid-container {
+				height: 50%;
+				width: 30%;
+				display: grid;
+				grid-template: 1fr 1fr 1fr/ 1fr 1fr 1fr;
+				grid-template-areas:
+					"cell_1 cell_2 cell_3"
+					"cell_4 cell_5 cell_6"
+					"cell_7 cell_8 cell_9";
+			}
+
+			.cell_1,
+			.cell_2,
+			.cell_3,
+			.cell_4,
+			.cell_5,
+			.cell_6,
+			.cell_7,
+			.cell_8,
+			.cell_9 {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 70px;
+				font-family: "Permanent Marker", sans-serif;
+				cursor: pointer;
+			}
+
+			.cell_1 {
+				border-right: 2px solid white;
+				border-bottom: 2px solid white;
+			}
+
+			.cell_3 {
+				border-left: 2px solid white;
+				border-bottom: 2px solid white;
+			}
+
+			.cell_5 {
+				border-top: 2px solid white;
+				border-right: 2px solid white;
+				border-bottom: 2px solid white;
+				border-left: 2px solid white;
+			}
+
+			.cell_7 {
+				border-top: 2px solid white;
+				border-right: 2px solid white;
+			}
+
+			.cell_9 {
+				border-left: 2px solid white;
+				border-top: 2px solid white;
+			}
+
+			.cell_2 {
+				border-right: 2px solid white;
+				border-bottom: 2px solid white;
+				border-left: 2px solid white;
+			}
+
+			.cell_4 {
+				border-right: 2px solid white;
+				border-bottom: 2px solid white;
+				border-top: 2px solid white;
+			}
+
+			.cell_6 {
+				border-top: 2px solid white;
+				border-bottom: 2px solid white;
+				border-left: 2px solid white;
+			}
+
+			.cell_8 {
+				border-right: 2px solid white;
+				border-top: 2px solid white;
+				border-left: 2px solid white;
+			}
+
+			button {
+				margin-bottom: 30px;
+				color: red;
+				font-size: 25px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<header>
+				<h1>Tic-Tac-Toe</h1>
+			</header>
+			<div id="gridContainer" class="grid-container">
+				<div id="cell1" class="cell_1"></div>
+				<div id="cell2" class="cell_2"></div>
+				<div id="cell3" class="cell_3"></div>
+				<div id="cell4" class="cell_4"></div>
+				<div id="cell5" class="cell_5"></div>
+				<div id="cell6" class="cell_6"></div>
+				<div id="cell7" class="cell_7"></div>
+				<div id="cell8" class="cell_8"></div>
+				<div id="cell9" class="cell_9"></div>
+			</div>
+			<div id="winnerDisp" class="winner-disp"></div>
+			<button id="resetButton" class="reset">Reset</button>
+		</div>
+
+		<script type="text/javascript">
+			let playerTurn = 0;
+			let winner = "";
+			let a = ["", "", "", "", "", "", "", "", ""];
+
+			const clearTable = () => {
+				for (let i = 1; i < 10; i++) {
+					document.getElementById("cell" + i).textContent = "";
+				}
+				for (let i = 1; i < 10; i++) {
+					document.getElementById("cell" + i).style.color = "white";
+				}
+				playerTurn = 0;
+				winner = "";
+				document.getElementById("winnerDisp").textContent = "";
+				playStart();
+			};
+
+			const checkWinner = () => {
+				for (let i = 1; i < 10; i++) {
+					a[i - 1] = document.getElementById("cell" + i).textContent;
+				}
+
+				if (a[0] !== "" && a[0] == a[1] && a[1] == a[2]) {
+					winner = a[0];
+					document.getElementById("cell1").style.color = "green";
+					document.getElementById("cell2").style.color = "green";
+					document.getElementById("cell3").style.color = "green";
+					playerTurn = 10;
+				} else if (a[3] !== "" && a[3] == a[4] && a[4] == a[5]) {
+					winner = a[4];
+					document.getElementById("cell4").style.color = "green";
+					document.getElementById("cell5").style.color = "green";
+					document.getElementById("cell6").style.color = "green";
+					playerTurn = 10;
+				} else if (a[6] !== "" && a[6] == a[7] && a[7] == a[8]) {
+					winner = a[7];
+					document.getElementById("cell7").style.color = "green";
+					document.getElementById("cell8").style.color = "green";
+					document.getElementById("cell9").style.color = "green";
+					playerTurn = 10;
+				} else if (a[0] !== "" && a[0] == a[3] && a[3] == a[6]) {
+					winner = a[3];
+					document.getElementById("cell1").style.color = "green";
+					document.getElementById("cell4").style.color = "green";
+					document.getElementById("cell7").style.color = "green";
+					playerTurn = 10;
+				} else if (a[1] !== "" && a[1] == a[4] && a[4] == a[7]) {
+					winner = a[4];
+					document.getElementById("cell2").style.color = "green";
+					document.getElementById("cell5").style.color = "green";
+					document.getElementById("cell8").style.color = "green";
+					playerTurn = 10;
+				} else if (a[2] !== "" && a[2] == a[5] && a[5] == a[8]) {
+					winner = a[5];
+					document.getElementById("cell3").style.color = "green";
+					document.getElementById("cell6").style.color = "green";
+					document.getElementById("cell9").style.color = "green";
+					playerTurn = 10;
+				} else if (a[0] !== "" && a[0] == a[4] && a[4] == a[8]) {
+					winner = a[4];
+					document.getElementById("cell1").style.color = "green";
+					document.getElementById("cell5").style.color = "green";
+					document.getElementById("cell9").style.color = "green";
+					playerTurn = 10;
+				} else if (a[2] !== "" && a[2] == a[4] && a[4] == a[6]) {
+					winner = a[4];
+					document.getElementById("cell3").style.color = "green";
+					document.getElementById("cell5").style.color = "green";
+					document.getElementById("cell7").style.color = "green";
+					playerTurn = 10;
+				} else if (playerTurn == 9) {
+					document.getElementById("winnerDisp").textContent = "DRAW !!!";
+				}
+				return;
+			};
+
+			const addMark = event => {
+				if (playerTurn < 9 && event.target.textContent === "") {
+					if (playerTurn++ % 2 == 0) {
+						event.target.textContent = "X";
+					} else {
+						event.target.textContent = "O";
+					}
+				}
+				checkWinner();
+				if (winner !== "") {
+					document.getElementById("winnerDisp").textContent =
+						"Winner is " + winner + " !";
+				}
+			};
+
+			const playStart = () => {
+				for (let i = 1; i < 10; i++) {
+					document
+						.getElementById("cell" + i)
+						.addEventListener("click", addMark);
+				}
+				document
+					.getElementById("resetButton")
+					.addEventListener("click", clearTable);
+			};
+			playStart();
+		</script>
+	</body>
+</html>
